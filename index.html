@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Indústria 4.0 + Sustentabilidade | Inovação Integrada</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #0d9488; /* teal sustentável */
+      --secondary: #0284c7; /* azul tecnologia */
+      --tertiary: #f59e0b; /* laranja inovação */
+      --bg: #0c1a1f;
+      --card: #1e2f3a;
+      --text: #f0fdfa;
+      --muted: #9ca3af;
+      --tech: #0891b2;
+      --eco: #10b981;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', sans-serif;
+      background: linear-gradient(145deg, #0c1a1f 0%, #1a2e36 100%);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    canvas#particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    header {
+      padding: 4rem 2rem;
+      text-align: center;
+      background: radial-gradient(circle at 50% 30%, rgba(13,148,136,0.15), transparent 70%);
+    }
+
+    .main-title {
+      font-size: 3.2rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--eco), var(--tech), var(--tertiary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .subtitle {
+      font-size: 1.4rem;
+      color: var(--muted);
+      max-width: 900px;
+      margin: 0 auto 2rem;
+    }
+
+    section {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 3rem 2rem;
+    }
+
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 2.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--eco), var(--tech));
+      border-radius: 2px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .card {
+      background: rgba(30, 47, 58, 0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.3s ease;
+      box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      border-color: var(--eco);
+      box-shadow: 0 30px 40px -10px rgba(13,148,136,0.2);
+    }
+
+    .card-icon {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      color: var(--eco);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 0.8rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .badge.tech { background: rgba(2,132,199,0.2); color: #7dd3fc; }
+    .badge.eco { background: rgba(16,185,129,0.2); color: #6ee7b7; }
+    .badge.inov { background: rgba(245,158,11,0.2); color: #fcd34d; }
+
+    .pilar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+    }
+
+    .pilar-item {
+      background: rgba(0,0,0,0.25);
+      padding: 1.5rem 0.5rem;
+      text-align: center;
+      border-radius: 1rem;
+      border-bottom: 3px solid transparent;
+      transition: 0.2s;
+    }
+    .pilar-item:hover {
+      border-bottom-color: var(--tech);
+      background: rgba(2,132,199,0.1);
+    }
+    .pilar-item i { font-size: 2rem; color: var(--tech); margin-bottom: 0.5rem; }
+
+    .method-card {
+      background: rgba(0,0,0,0.2);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--tertiary);
+    }
+
+    .step-circle {
+      width: 60px;
+      height: 60px;
+      background: var(--eco);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin-right: 1rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--eco);
+      width: 0%;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, var(--eco), var(--tech));
+      border: none;
+      padding: 1rem 2.5rem;
+      border-radius: 3rem;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 25px -5px var(--eco);
+    }
+
+    footer {
+      text-align: center;
+      padding: 3rem 1rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      color: var(--muted);
+    }
+
+    @media (max-width: 700px) {
+      .main-title { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="particles"></canvas>
+
+<header>
+  <h1 class="main-title">Indústria 4.0 + Sustentabilidade</h1>
+  <p class="subtitle">Inovação integrada para um empreendedorismo consciente, competitivo e regenerativo</p>
+  <div style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
+    <span class="badge tech">🤖 IoT</span>
+    <span class="badge tech">📊 Big Data</span>
+    <span class="badge tech">🧠 IA</span>
+    <span class="badge eco">🌱 Economia Circular</span>
+    <span class="badge eco">☀️ Energia Limpa</span>
+    <span class="badge inov">⚡ Metodologias Ágeis</span>
+  </div>
+</header>
+
+<!-- 8 PILARES INDÚSTRIA 4.0 -->
+<section>
+  <h2 class="section-title">⚙️ 8 Pilares da Indústria 4.0</h2>
+  <div class="pilar-grid">
+    <div class="pilar-item"><i class="fas fa-wifi"></i><br>IoT</div>
+    <div class="pilar-item"><i class="fas fa-database"></i><br>Big Data</div>
+    <div class="pilar-item"><i class="fas fa-cloud"></i><br>Nuvem</div>
+    <div class="pilar-item"><i class="fas fa-brain"></i><br>Inteligência Artificial</div>
+    <div class="pilar-item"><i class="fas fa-cube"></i><br>Impressão 3D</div>
+    <div class="pilar-item"><i class="fas fa-robot"></i><br>Robótica</div>
+    <div class="pilar-item"><i class="fas fa-vr-cardboard"></i><br>AR/VR</div>
+    <div class="pilar-item"><i class="fas fa-shield-alt"></i><br>Cibersegurança</div>
+  </div>
+</section>
+
+<!-- SUSTENTABILIDADE + TECNOLOGIA -->
+<section>
+  <h2 class="section-title">🌍 Sustentabilidade Encontra a Tecnologia</h2>
+  <div class="grid">
+    <div class="card">
+      <i class="fas fa-leaf card-icon"></i>
+      <h3>IoT + Meio Ambiente</h3>
+      <p>Sensores monitoram consumo de água, energia e emissões em tempo real. Redução de até 30% nos recursos.</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-recycle card-icon"></i>
+      <h3>Big Data + Circularidade</h3>
+      <p>Análise de dados otimiza logística reversa e reaproveitamento de materiais.</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-solar-panel card-icon"></i>
+      <h3>IA + Energia Limpa</h3>
+      <p>Previsão de geração solar e eólica, armazenamento inteligente.</p>
+    </div>
+    <div class="card">
+      <i class="fas fa-cubes card-icon"></i>
+      <h3>3D + Baixo Resíduo</h3>
+      <p>Manufatura aditiva gera 90% menos desperdício que processos tradicionais.</p>
+    </div>
+  </div>
+</section>
+
+<!-- METODOLOGIAS ÁGEIS -->
+<section>
+  <h2 class="section-title">⚡ Metodologias Ágeis para Inovação Sustentável</h2>
+  <div class="method-card">
+    <h3><i class="fas fa-pencil-ruler" style="color:var(--tertiary);"></i> Design Thinking</h3>
+    <p>Empatia com usuário → soluções que realmente atendem necessidades socioambientais.</p>
+  </div>
+  <div class="method-card">
+    <h3><i class="fas fa-sync-alt" style="color:var(--tertiary);"></i> Scrum</h3>
+    <p>Sprints curtas, feedback contínuo, entregas incrementais de valor sustentável.</p>
+  </div>
+  <div class="method-card">
+    <h3><i class="fas fa-hourglass-half" style="color:var(--tertiary);"></i> Design Sprint</h3>
+    <p>Valide ideias verdes em 5 dias antes de investir pesado.</p>
+  </div>
+  <div class="method-card">
+    <h3><i class="fas fa-tasks" style="color:var(--tertiary);"></i> Kanban</h3>
+    <p>Visualize fluxos, elimine gargalos, reduza desperdício de recursos.</p>
+  </div>
+  <div class="method-card">
+    <h3><i class="fas fa-briefcase" style="color:var(--tertiary);"></i> Jobs-to-be-Done</h3>
+    <p>Entenda o "trabalho" do cliente e crie soluções que realmente resolvem.</p>
+  </div>
+</section>
+
+<!-- 10 PASSOS PRÁTICOS (INTERATIVO) -->
+<section>
+  <h2 class="section-title">🪜 10 Passos para Inovação Sustentável</h2>
+  <div style="display: flex; flex-direction: column; gap: 1rem;">
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">1</div>
+      <div><strong>Pesquise oportunidades sustentáveis</strong> – identifique demandas verdes.</div>
+    </div>
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">2</div>
+      <div><strong>Defina visão sustentável</strong> – integre propósito ao negócio.</div>
+    </div>
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">3</div>
+      <div><strong>Plano de negócios sustentável</strong> – metas ESG claras.</div>
+    </div>
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">4</div>
+      <div><strong>Operação sustentável</strong> – fornecedores, resíduos, energia.</div>
+    </div>
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">5</div>
+      <div><strong>Produtos/serviços sustentáveis</strong> – design circular, materiais ecológicos.</div>
+    </div>
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">6</div>
+      <div><strong>Incentive criatividade</strong> – metodologias ágeis, hackathons.</div>
+    </div>
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">7</div>
+      <div><strong>Parcerias sustentáveis</strong> – cadeia de valor alinhada.</div>
+    </div>
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">8</div>
+      <div><strong>Comunique com transparência</strong> – evite greenwashing.</div>
+    </div>
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">9</div>
+      <div><strong>Meça desempenho</strong> – indicadores de impacto.</div>
+    </div>
+    <div class="step-item" style="display: flex; align-items: center; background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 2rem;">
+      <div class="step-circle">10</div>
+      <div><strong>Busque certificações</strong> – B Corp, ISO 14000.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CASOS REAIS -->
+<section>
+  <h2 class="section-title">📰 Casos Reais</h2>
+  <div class="grid">
+    <div class="card" style="border-left: 6px solid var(--eco);">
+      <h3>🌿 Natura</h3>
+      <p>Blockchain + IoT para rastrear insumos amazônicos. 1ª empresa B Corp de capital aberto.</p>
+    </div>
+    <div class="card" style="border-left: 6px solid var(--tech);">
+      <h3>🏭 Siemens</h3>
+      <p>Fábrica digital com IA e IoT reduz 30% consumo de energia.</p>
+    </div>
+    <div class="card" style="border-left: 6px solid var(--tertiary);">
+      <h3>🚲 Tembici</h3>
+      <p>Bicicletas compartilhadas com IoT: 60 milhões de km pedalados, -10 mil t CO₂.</p>
+    </div>
+    <div class="card" style="border-left: 6px solid #ef4444;">
+      <h3>⚠️ H&M (greenwashing)</h3>
+      <p>Campanha "Conscious" criticada por baixo teor reciclado. Lição: sustente de verdade.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHECKLIST INTERATIVO -->
+<section>
+  <h2 class="section-title">✅ Checklist: Empreendedor 4.0 Sustentável</h2>
+  <div id="checklistContainer"></div>
+  <button class="btn" id="calcScore" style="margin-top:2rem;">📊 Calcular Pontuação</button>
+  <div id="scoreResult" style="margin-top:2rem; display:none; background:rgba(0,0,0,0.4); padding:1.5rem; border-radius:1.5rem;"></div>
+</section>
+
+<footer>
+  <p><strong>Tema 06 – Integrando Inovação, Sustentabilidade e Indústria 4.0</strong><br>Empreendedorismo | Desafios e Oportunidades</p>
+  <p style="margin-top:1.5rem;">"Tecnologia com propósito transforma o mundo."</p>
+</footer>
+
+<script>
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const particles = [];
+  for (let i = 0; i < 50; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height,
+      radius: Math.random() * 2.5 + 0.5,
+      vx: (Math.random() - 0.5) * 0.2,
+      vy: (Math.random() - 0.5) * 0.2,
+      color: `hsl(${Math.random() * 40 + 160}, 70%, 60%)`
+    });
+  }
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => {
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+      if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    });
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Checklist
+  const items = [
+    'Utilizo IoT ou sensores para monitorar consumo de recursos',
+    'Analiso dados para decisões mais eficientes (Big Data)',
+    'Adoto automação/robótica para reduzir desperdícios',
+    'Invisto em energia limpa ou eficiência energética',
+    'Meu produto/serviço resolve problema ambiental/social',
+    'Tenho metas claras de redução de impacto',
+    'Minha cadeia de fornecedores é auditada por critérios ESG',
+    'Comunico práticas sustentáveis com transparência',
+    'Uso metodologias ágeis (Scrum, Design Thinking)',
+    'Minha liderança incentiva cultura de inovação',
+    'Destino recursos para P&D de soluções sustentáveis',
+    'Meço e publico indicadores de impacto'
+  ];
+  let html = '';
+  items.forEach((txt, i) => {
+    html += `<div style="display:flex; align-items:center; gap:1rem; margin-bottom:0.8rem; background:rgba(255,255,255,0.02); padding:0.8rem; border-radius:0.8rem;">
+      <input type="checkbox" id="chk${i}"> <label for="chk${i}">${txt}</label>
+    </div>`;
+  });
+  document.getElementById('checklistContainer').innerHTML = html;
+
+  document.getElementById('calcScore').addEventListener('click', () => {
+    let total = 0;
+    for (let i = 0; i < items.length; i++) {
+      if (document.getElementById(`chk${i}`).checked) total++;
+    }
+    const percent = (total / items.length) * 100;
+    let msg = '';
+    if (percent >= 80) msg = '🎉 Excelente! Você é um empreendedor 4.0 sustentável.';
+    else if (percent >= 50) msg = '📊 Bom caminho. Fortaleça os pilares frágeis.';
+    else msg = '🌱 Comece agora! Use os 10 passos como guia.';
+    document.getElementById('scoreResult').style.display = 'block';
+    document.getElementById('scoreResult').innerHTML = `<h4>Pontuação: ${total}/${items.length} (${percent.toFixed(1)}%)</h4><p>${msg}</p>`;
+  });
+</script>
+</body>
+</html>
